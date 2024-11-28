@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Your Watchlist</h2>
+
+    {% if listings %}
+        <ul>
+            {% for listing in listings %}
+                <li>
+                    <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+                    <p>{{ listing.description }}</p>
+                    <p>Current Price: ${{ listing.current_price }}</p>
+                    <p>Starting Bid: ${{ listing.starting_bid }}</p>
+                    
+                    <!-- Ensure that category is present and clickable -->
+                    {% if listing.category %}
+                        <p>Category: <a href="{% url 'category_listings' category_id=listing.category.id %}">{{ listing.category.name }}</a></p>
+                    {% else %}
+                        <p>Category: None</p>
+                    {% endif %}
+                    
+                    {% if listing.is_active %}
+                        <p>Status: Active</p>
+                    {% else %}
+                        <p>Status: Closed</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You are not watching any listings.</p>
+    {% endif %}
+{% endblock %}

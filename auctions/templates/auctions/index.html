@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    <!-- Add link to create a new listing -->
+    {% if user.is_authenticated %}
+        <a href="{% url 'create_listing' %}">Create a new listing</a>
+    {% endif %}
+
+    <!-- Display all active listings -->
+    {% if active_listings %}
+        <ul>
+            {% for listing in active_listings %}
+                <li>
+                    <h3><a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a></h3>
+                    <p>{{ listing.description }}</p>
+                    <p>Starting Bid: ${{ listing.starting_bid }}</p>
+                    <p>Current Price: ${{ listing.current_price }}</p>
+
+                    <!-- Display the image if available -->
+                    {% if listing.image_url %}
+                        <img src="{{ listing.image_url }}" alt="{{ listing.title }}" style="max-width: 200px; max-height: 200px;">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </li>
+                <br><br> <!-- Double space added here -->
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No active listings available.</p>
+    {% endif %}
+
+    <h2>Closed Listings</h2>
+    {% if closed_listings %}
+        <ul>
+            {% for listing in closed_listings %}
+                <li>
+                    <h3><a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a></h3>
+                    <p>{{ listing.description }}</p>
+                    <p>Starting Bid: ${{ listing.starting_bid }}</p>
+                    <p>Current Price: ${{ listing.current_price }}</p>
+
+                    <!-- Display the image if available -->
+                    {% if listing.image_url %}
+                        <img src="{{ listing.image_url }}" alt="{{ listing.title }}" style="max-width: 200px; max-height: 200px;">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </li>
+                <br><br> <!-- Double space added here -->
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No closed listings available.</p>
+    {% endif %}
+
+    <!-- Add a section for exploring all categories -->
+    <h2>Explore More</h2>
+    <a href="{% url 'categories' %}" class="btn btn-primary">View All Categories</a> <!-- New link added here -->
+{% endblock %}

@@ -1,0 +1,20 @@
+<!-- auctions/templates/auctions/category_listings.html -->
+
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ category.name }}</h2>
+    <p>Here are all the active listings in the "{{ category.name }}" category:</p>
+    
+    {% if listings %}
+        <ul>
+            {% for listing in listings %}
+                <li>
+                    <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a> - ${{ listing.current_price }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No listings in this category yet.</p>
+    {% endif %}
+{% endblock %}
